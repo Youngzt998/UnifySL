@@ -9,15 +9,19 @@ Class Program : Type:={
   program: Type;
 }.
 
-Class ProgramOperation (Pro:Program):Type:= {
-  choice: program -> program -> program;
-  composition: program -> program -> program;
-  iteration: program -> program
-}.
-
 Class PropositionalDynamicLanguage (L:Language)(Pro: Program):Type:={
   boxp: program -> expr -> expr
 }.
+
+
+Class ProgramOperation (L:Language)(Pro:Program):Type:= {
+  choice: program -> program -> program;
+  composition: program -> program -> program;
+  iteration: program -> program;
+  test: expr -> program
+}.
+
+
 
 Definition diamond{L:Language} {MinL: MinimunLanguage L}{PL: PropositionalLanguage L} {Pro: Program} {PDL: PropositionalDynamicLanguage L Pro} (x: expr)(pi: program)
 : expr := ~~ (boxp pi (~~ x)).

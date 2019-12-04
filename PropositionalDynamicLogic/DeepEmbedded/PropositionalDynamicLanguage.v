@@ -11,7 +11,6 @@ Require Import Logic.PropositionalDynamicLogic.Syntax.
 Local Open Scope logic_base.
 Local Open Scope syntax.
 Import PropositionalLanguageNotation.
-Import PropositionalDynamicLogicLanguageNotation.
 
 Class PropositionalVariables: Type := {
   Var: Type
@@ -21,14 +20,14 @@ Class ProgramVariables: Type :={
   BaseP: Type
 }.
 
-Inductive program {ProV: ProgramVariables}: Type :=
+Inductive program {Sigma: PropositionalVariables}{ProV: ProgramVariables}: Type :=
   | choice: program -> program -> program
   | composition: program -> program -> program
   | iteration: program -> program
+  | test: expr -> program
   | basep: BaseP -> program
-.
-
-Inductive expr {Sigma: PropositionalVariables} {ProV: ProgramVariables}: Type :=
+with
+ expr {Sigma: PropositionalVariables} {ProV: ProgramVariables}: Type :=
   | impp : expr -> expr -> expr
   | orp : expr -> expr -> expr
   | andp: expr -> expr -> expr
@@ -37,7 +36,7 @@ Inductive expr {Sigma: PropositionalVariables} {ProV: ProgramVariables}: Type :=
   | varp : Var -> expr
 .
 
-Arguments program ProV: clear implicits.
+Arguments program Sigma ProV: clear implicits.
 Arguments expr Sigma ProV: clear implicits.
 
 
@@ -45,7 +44,7 @@ Instance L {Sigma: PropositionalVariables} {ProV: ProgramVariables}: Language
 := Build_Language (expr Sigma ProV).
 
 Instance Pro {Sigma: PropositionalVariables} {ProV: ProgramVariables}: Program
-:= Build_Program (program ProV).
+:= Build_Program (program Sigma ProV).
 
 Instance minL {Sigma: PropositionalVariables} {ProV: ProgramVariables}: MinimunLanguage L
 := Build_MinimunLanguage L impp.
@@ -53,8 +52,8 @@ Instance minL {Sigma: PropositionalVariables} {ProV: ProgramVariables}: MinimunL
 Instance pL {Sigma: PropositionalVariables} {Pro: ProgramVariables}: PropositionalLanguage L
 := Build_PropositionalLanguage L andp orp falsep.
 
-Instance pdL {Sigma: PropositionalVariables} {ProV: ProgramVariables}: PropositionalDynamicLogicLanguage L Pro
-:= Build_PropositionalDynamicLogicLanguage L Pro boxp.
+Instance pdL {Sigma: PropositionalVariables} {ProV: ProgramVariables}: PropositionalDynamicLanguage L Pro
+:= Build_PropositionalDynamicLanguage L Pro boxp.
 
 
 Lemma formula_countable: forall {Sigma}{ProV}, Countable Var -> Countable BaseP -> Countable (expr Sigma ProV).
