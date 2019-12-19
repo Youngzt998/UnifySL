@@ -56,6 +56,14 @@ Context {Gamma: ProofTheory PropositionalLanguage.L}.
 
 Definition cP : context -> Prop := Intersection _ (Intersection _ derivable_closed orp_witnessed) consistent.
 
+Print derivable_closed. 
+Print Intersection. 
+Print consistent. Check consistent.
+Check Intersection _ derivable_closed orp_witnessed. 
+Print orp_witnessed.
+Locate solve_at_least. 
+Locate at_least. Print at_least.
+
 Lemma AL_DC: at_least derivable_closed cP.
 Proof. solve_at_least. Qed.
 
@@ -87,8 +95,12 @@ Proof.
     - apply Lindenbaum_cannot_derive_ensures_consistent.
 Qed.
 
+Print sig. Check sig (fun x:nat => x = 0 ). Context {test: {x:nat|x=0}}. Check proj1_sig test . Check proj2_sig test.
+
+Print context . Check context.
+
 Definition canonical_frame: KripkeSemantics.frame :=
-  KripkeSemantics.Build_frame (sig cP) (fun a b => Included _ (proj1_sig a) (proj1_sig b)).
+  KripkeSemantics.Build_frame (sig cP) (fun a b => Included _ (proj1_sig a) (proj1_sig b)). 
 
 Definition canonical_eval: PropositionalLanguage.Var -> KripkeSemantics.sem canonical_frame :=
   fun p a => proj1_sig a (PropositionalLanguage.varp p).
@@ -135,9 +147,9 @@ Theorem complete_intuitionistic_Kripke_all:
   strongly_complete ProofTheories.IntuitionisticPropositionalLogic.G KripkeSemantics.SM
     (KripkeModelClass _ (Kmodel_Monotonic + Kmodel_PreOrder)).
 Proof.
-  apply (@general_completeness _ _ _ _ _ _ _ _ cP rel LIN_CD TRUTH).
+  apply (@general_completeness _ _ _ _ _ _ _ _ cP rel LIN_CD TRUTH). Locate general_completeness.
   constructor; hnf.
-  + intros.
+  + intros. Locate denote_monotonic.
     exact (denote_monotonic cP rel H_R
              (PropositionalLanguage.varp v)
              (TRUTH (PropositionalLanguage.varp v))).

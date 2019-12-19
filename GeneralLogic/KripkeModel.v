@@ -29,6 +29,9 @@ Local Open Scope kripke_model.
 
 Definition upwards_closed_Kdenote {worlds: Type} {R: Relation worlds} (d: Ensemble worlds): Prop :=
   forall n m, n <= m -> d n -> d m.
+Lemma test {worlds:Type} {R:Relation worlds}:forall d,  upwards_closed_Kdenote d. intros. unfold upwards_closed_Kdenote.
+unfold Krelation.
+Abort.
 
 Definition Krelation_stable_Kdenote {worlds: Type} {R: Relation worlds} (d: Ensemble worlds): Prop :=
   forall w1 w2, w1 <= w2 -> (d w1 <-> d w2).

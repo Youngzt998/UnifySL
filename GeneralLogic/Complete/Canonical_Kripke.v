@@ -29,11 +29,11 @@ Context (cP: context -> Prop)
         (rel: bijection (Kworlds M) (sig cP)).
 
 Hypothesis H_R: forall m n Phi Psi, rel m Phi -> rel n Psi -> (m <= n <-> Included _ (proj1_sig Phi) (proj1_sig Psi)).
-
+Print upwards_closed_Kdenote.
 Lemma denote_monotonic (x: expr):
   (forall m Phi, rel m Phi -> (KRIPKE: M, m |= x <-> proj1_sig Phi x)) ->
   upwards_closed_Kdenote (Kdenotation M x).
-Proof.
+Proof. Compute upwards_closed_Kdenote (Kdenotation M x).
   intros.
   hnf; intros.
   change (KRIPKE: M, m |= x).
@@ -46,7 +46,7 @@ Proof.
 Qed.
 
 Instance po_R: PreOrder (@KI.Krelation _ R).
-Proof.
+Proof. Compute (@KI.Krelation _ R).
   constructor.
   + hnf; intros m.
     destruct (im_bij _ _ rel m) as [Phi ?].

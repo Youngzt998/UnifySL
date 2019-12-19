@@ -32,6 +32,7 @@ Inductive provable: expr -> Prop :=
 | orp_elim: forall x y z, provable ((x --> z) --> (y --> z) --> (x || y --> z))
 | falsep_elim: forall x, provable (FF --> x).
 
+Locate Build_AxiomaticProofTheory.
 Instance G: ProofTheory PropositionalLanguage.L := Build_AxiomaticProofTheory provable.
 
 Instance AX: NormalAxiomatization PropositionalLanguage.L G := Build_AxiomaticProofTheory_AX provable.

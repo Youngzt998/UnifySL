@@ -20,12 +20,14 @@ Require Import Logic.PropositionalLogic.Semantics.Kripke.
 Require Import Logic.PropositionalLogic.Complete.ContextProperty_Kripke.
 
 Require Import Logic.PropositionalDynamicLogic.Syntax.
+Require Import Logic.PropositionalDynamicLogic.Complete.Fischer_Ladner.
 
 Local Open Scope logic_base.
 Local Open Scope syntax.
 Local Open Scope kripke_model.
-Import PropositionalLanguageNotation.
+Import PropositionalDynamicLanguageNotation.
 Import KripkeModelFamilyNotation.
+Import KripkeModelNotation_Intuitionistic.
 
 Section TruthLemma.
 Locate ClassicalPropositionalSequentCalculus.
@@ -46,3 +48,10 @@ Context {L: Language}
         {kminSM: KripkeMinimunSemantics L MD M SM}
         {kpSM: KripkePropositionalSemantics L MD M SM}.
 
+Context (P: context -> Prop)
+        (rel: bijection (Kworlds M) (sig P)).
+        
+Lemma H_R: forall m n Phi Psi, rel m Phi -> rel n Psi -> (m <= n <-> Included _ (proj1_sig Phi) (proj1_sig Psi)).
+Proof.
+  intros.
+  change (m = Phi) in H0.

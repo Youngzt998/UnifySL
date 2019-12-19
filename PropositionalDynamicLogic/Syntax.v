@@ -35,6 +35,7 @@ Notation "< pi > x" := (diamond pi x) (at level 30, left associativity) : syntax
 Notation "pi1 \\// pi2" := (choice pi1 pi2) (at level 31, left associativity) : syntax.
 Notation " pi1 -;- pi2" := (composition pi1 pi2) (at level 29, no associativity) : syntax.
 Notation " pi * " := (iteration pi) (at level 28) : syntax.
+Notation " y ? " := (test y) (at level 28) : syntax.
 
 
 End PropositionalDynamicLanguageNotation.

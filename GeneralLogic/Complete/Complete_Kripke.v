@@ -33,7 +33,7 @@ Context (cP: context -> Prop)
 Hypothesis LIN_CD: forall x: expr, Lindenbaum_constructable (cannot_derive x) cP.
 Hypothesis TRUTH: forall x: expr, forall m Phi, rel m Phi -> (KRIPKE: M, m |= x <-> proj1_sig Phi x).
 Hypothesis CANON: kMC M.
-
+Print KripkeModelClass.
 Lemma general_completeness: strongly_complete Gamma SM (KripkeModelClass _ kMC).
 Proof.
   intros.
@@ -45,12 +45,12 @@ Proof.
   } Unfocus.
 
   intros.
-  destruct (LIN_CD x _ H) as [Psi [? ?]].
+  destruct (LIN_CD x Phi H) as [Psi [? ?]]. Print cannot_derive.
   destruct (su_bij _ _ rel Psi) as [n HH].
-  specialize (fun x => TRUTH x _ _ HH); clear HH.
+  specialize (fun x => TRUTH x _ _ HH). clear HH.
   assert ((forall x, Phi x -> KRIPKE: M, n |= x) /\ ~ KRIPKE: M, n |= x).
   Focus 2. {
-    intro.
+    intro. hnf in H3.
     specialize (H3 (KRIPKE: M, n) ltac:(constructor; apply CANON)).
     tauto.
   } Unfocus.
@@ -58,10 +58,10 @@ Proof.
   split.
   + intros.
     rewrite TRUTH.
-    apply H0; auto.
+    apply H0. auto.
   + rewrite TRUTH.
-    intro; apply H1; clear H1.
-    apply derivable_assum; auto.
+    intro. apply H1; clear H1. Check derivable_assum.
+    apply derivable_assum. auto.
 Qed.
 
 End Completeness.

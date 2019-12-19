@@ -46,6 +46,9 @@ Instance L {Sigma: PropositionalVariables} {ProV: ProgramVariables}: Language
 Instance Pro {Sigma: PropositionalVariables} {ProV: ProgramVariables}: Program
 := Build_Program (program Sigma ProV).
 
+Instance ProOp {Sigma: PropositionalVariables} {ProV: ProgramVariables}: ProgramOperation L Pro
+:= Build_ProgramOperation L Pro choice composition iteration test.
+
 Instance minL {Sigma: PropositionalVariables} {ProV: ProgramVariables}: MinimunLanguage L
 := Build_MinimunLanguage L impp.
 
@@ -56,7 +59,18 @@ Instance pdL {Sigma: PropositionalVariables} {ProV: ProgramVariables}: Propositi
 := Build_PropositionalDynamicLanguage L Pro boxp.
 
 
-Lemma formula_countable: forall {Sigma}{ProV}, Countable Var -> Countable BaseP -> Countable (expr Sigma ProV).
+(* Definition rank {Sigma: PropositionalVariables}{ProV: ProgramVariables}: expr Sigma ProV -> nat :=
+  fix rank (x: expr Sigma ProV): nat :=
+    match x with
+    | andp y z => 1 + rank y + rank z
+    | orp y z => 1 + rank y + rank z
+    | impp y z => 1 + rank y + rank z
+    | falsep => 0
+    | varp p => 0
+    | boxp pi x => 
+    end.
+*)
+Lemma formula_countable: forall {Sigma} {ProV}, Countable Var -> Countable BaseP -> Countable (expr Sigma ProV).
 Proof. Admitted.
 
 

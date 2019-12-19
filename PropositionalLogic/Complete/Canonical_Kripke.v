@@ -50,7 +50,7 @@ Context (cP: context -> Prop)
         (rel: bijection (Kworlds M) (sig cP)).
 
 Hypothesis H_R: forall m n Phi Psi, rel m Phi -> rel n Psi -> (m <= n <-> Included _ (proj1_sig Phi) (proj1_sig Psi)).
-
+Locate IdentityKripkeIntuitionisticModel.
 Lemma classical_canonical_ident
       {cpSC: ClassicalPropositionalSequentCalculus L Gamma}
       (AL_DC: at_least derivable_closed cP)

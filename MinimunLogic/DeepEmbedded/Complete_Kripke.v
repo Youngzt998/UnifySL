@@ -96,7 +96,7 @@ Proof.
 Qed.
 
 Import Logic.MinimunLogic.DeepEmbedded.KripkeSemantics.
-
+Print po_R.
 Theorem complete_MinimunLogic_Kripke_all:
   strongly_complete G Kripke_SM
     (KripkeModelClass _ (Kmodel_Monotonic + Kmodel_PreOrder)).

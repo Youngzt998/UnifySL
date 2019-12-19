@@ -70,7 +70,7 @@ Proof.
   pose proof pf_inj _ _ CA a _ _ H H0.
   omega.
 Qed.
-
+Print Forall.
 Lemma Lindenbaum_finite_witness:
   forall xs, Forall LindenbaumConstruction xs ->
     exists n, Forall (LindenbaumChain n) xs.
@@ -84,7 +84,7 @@ Proof.
     exists (max n (S m)).
     constructor.
     - erewrite <- Lindenbaum_pointwise_finite_decided in H by eauto.
-      revert H; apply (Lindenbaum_included_n_m (S m)).
+      revert H. apply (Lindenbaum_included_n_m (S m)).
       apply Max.le_max_r.
     - revert H1.
       apply Forall_impl; intro.
@@ -93,7 +93,7 @@ Proof.
 Qed.
 
 Hypothesis H_init: P init.
-
+Compute Proper (Same_set A ==> iff) P.
 Lemma Lindenbaum_preserve_n:
   Proper (Same_set A ==> iff) P ->
   forall n, P (LindenbaumChain n).
@@ -128,7 +128,7 @@ Proof.
     intros a0.
     firstorder.
 Qed.
-
+Print finite_captured. Print subset_preserved. Print Forall.
 Lemma Lindenbaum_preserve_omega:
   finite_captured P ->
   subset_preserved P ->
@@ -174,6 +174,9 @@ Definition Lindenbaum_ensures {A: Type} (P cP: Ensemble A -> Prop): Prop :=
 Definition Lindenbaum_constructable {A: Type} (P cP: Ensemble A -> Prop): Prop :=
   forall Phi, P Phi -> exists Psi: sig cP, Included _ Phi (proj1_sig Psi) /\ P (proj1_sig Psi).
 
+
+Check exist (fun x => x=0) 0 . Check sig (fun x => x=0).
+
 Lemma Lindenbaum_constructable_Same_set {A: Type}: forall P Q cP: Ensemble A -> Prop,
   Same_set _ P Q ->
   (Lindenbaum_constructable P cP <-> Lindenbaum_constructable Q cP).
@@ -204,7 +207,7 @@ Proof.
   split; auto.
   apply Lindenbaum_included.
 Qed.
-
+Print finite_captured.
 Lemma Lindenbaum_preserves_by_finiteness {A: Type}: forall P: Ensemble A -> Prop,
   finite_captured P ->
   subset_preserved P ->
@@ -214,7 +217,7 @@ Proof.
   hnf; intros.
   apply Lindenbaum_preserve_omega; auto.
 Qed.
-
+e
 Lemma Lindenbaum_ensures_by_conjunct {A: Type}: forall P cP1 cP2: Ensemble A -> Prop,
   Lindenbaum_ensures P cP1 ->
   Lindenbaum_ensures P cP2 ->

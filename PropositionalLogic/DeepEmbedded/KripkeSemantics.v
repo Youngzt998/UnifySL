@@ -57,8 +57,10 @@ Instance kMD: KripkeModel MD :=
     (fun M m => Build_model M m).
 
 Instance R (M: Kmodel): Relation (Kworlds M) :=
-  @underlying_relation M.
+  @underlying_relation M. Print Relation.
 
+Print upwards_closed_Kdenote.
+Print IdentityKripkeIntuitionisticModel.
 Definition Kmodel_Monotonic: Kmodel -> Prop := fun M =>
   forall v: Var, upwards_closed_Kdenote (sem_var M v).
 

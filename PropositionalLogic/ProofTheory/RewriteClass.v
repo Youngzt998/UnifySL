@@ -61,7 +61,7 @@ Proof.
   apply provable_impp_refl.
 Qed.
 
-Instance provable_iffp_rewrite: RewriteRelation (fun x y => |-- x <--> y).
+Instance provable_iffp_rewrite: RewriteRelation (fun x y => |-- x <--> y). Qed.
 
 Instance provable_iffp_equiv: Equivalence (fun x y => |-- x <--> y).
 Proof.
